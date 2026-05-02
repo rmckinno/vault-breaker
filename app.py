@@ -123,7 +123,7 @@ def process_guess(secret, max_attempts):
         st.session_state.message = "Vault cracked!"
 
 
-st.title("Vault Breaker")
+st.title("Vault Breaker 🔐") #changed
 st.write("Crack the 4-digit vault code.")
 
 with st.expander("How to play"):
