@@ -213,53 +213,63 @@ if st.session_state.message:
         st.warning(st.session_state.message)
 
 if st.session_state.history:
-    st.subheader("Latest Attempts")
+    st.subheader("Vault Attempts")
 
-    for entry in reversed(st.session_state.history):
+    for entry in st.session_state.history:
         guess, feedback, distance = entry
         cols = st.columns(5)
 
-        color_map = {
-            "🟩": "#6aaa64",
-            "🟨": "#c9b458",
-            "⬛": "#787c7e",
-        }
+        for i in range(4):
+            
+            # cols[i].markdown(
+            #     f"<div style='text-align:center; font-size:24px;'>{guess[i]}<br>{feedback[i]}</div>",
+            #     unsafe_allow_html=True,
+            # )
+            color_map = {
+                "🟩": "#6aaa64",  # green
+                "🟨": "#c9b458",  # yellow
+                "⬛": "#787c7e",  # gray
+            }
 
-    for i in range(4):
-        cols[i].markdown(
+            cols[i].markdown(
+                f"""
+                <div style='
+                    background-color:{color_map[feedback[i]]};
+                    color:white;
+                    text-align:center;
+                    font-size:28px;
+                    padding:15px;
+                    border-radius:8px;
+                    font-weight:bold;
+                    margin:6px;
+                '>
+                    {guess[i]}
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+        # cols[4].markdown(
+        #     f"<div style='text-align:center;font-size:24px;'>Dist<br><b>{distance}</b></div>",
+        #     unsafe_allow_html=True,
+        # )
+        # =============DISTANCE===============
+        cols[4].markdown(
             f"""
             <div style='
-                background-color:{color_map[feedback[i]]};
+                background-color:#222;
                 color:white;
                 text-align:center;
-                font-size:28px;
+                font-size:20px;
                 padding:15px;
                 border-radius:8px;
-                font-weight:bold;
-                margin:4px;
+                margin:6px;
             '>
-                {guess[i]}
+                Distance:<b>{distance}</b>
             </div>
             """,
             unsafe_allow_html=True,
         )
-        # =============DISTANCE===============
-    cols[4].markdown(
-        f"""
-        <div style='
-            background-color:#222;
-            color:white;
-            text-align:center;
-            font-size:20px;
-            padding:15px;
-            border-radius:8px;
-            margin:6px;
-        '>
-            Distance:<b>{distance}</b>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
 
     known_display = (
         ", ".join(sorted(st.session_state.known_digits))
