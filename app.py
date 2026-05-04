@@ -227,60 +227,30 @@ if st.session_state.message:
 if st.session_state.history:
     st.subheader("Latest Attempts")
 
+    color_map = {
+        "🟩": "#6aaa64",
+        "🟨": "#c9b458",
+        "⬛": "#787c7e",
+    }
+
     for entry in reversed(st.session_state.history):
-    #for entry in st.session_state.history:
         guess, feedback, distance = entry
-        cols = st.columns(5)
 
-        for i in range(4):
+        digit_cells = "".join(
+            f"""<div style='flex:1;background-color:{color_map[feedback[i]]};color:white;
+                text-align:center;font-size:28px;padding:15px;border-radius:8px;
+                font-weight:bold;margin:6px;'>{guess[i]}</div>"""
+            for i in range(4)
+        )
 
-            # cols[i].markdown(
-            #     f"<div style='text-align:center; font-size:24px;'>{guess[i]}<br>{feedback[i]}</div>",
-            #     unsafe_allow_html=True,
-            # )
-            color_map = {
-                "🟩": "#6aaa64",  # green
-                "🟨": "#c9b458",  # yellow
-                "⬛": "#787c7e",  # gray
-            }
-
-            cols[i].markdown(
-                f"""
-                <div style='
-                    background-color:{color_map[feedback[i]]};
-                    color:white;
-                    text-align:center;
-                    font-size:28px;
-                    padding:15px;
-                    border-radius:8px;
-                    font-weight:bold;
-                    margin:6px;
-                '>
-                    {guess[i]}
+        st.markdown(
+            f"""<div style='display:flex;flex-wrap:nowrap;align-items:center;'>
+                {digit_cells}
+                <div style='flex:1;background-color:#222;color:white;text-align:center;
+                    font-size:20px;padding:15px;border-radius:8px;margin:6px;'>
+                    Distance: <b>{distance}</b>
                 </div>
-                """,
-                unsafe_allow_html=True,
-            )
-
-        # cols[4].markdown(
-        #     f"<div style='text-align:center;font-size:24px;'>Dist<br><b>{distance}</b></div>",
-        #     unsafe_allow_html=True,
-        # )
-        # =============DISTANCE===============
-        cols[4].markdown(
-            f"""
-            <div style='
-                background-color:#222;
-                color:white;
-                text-align:center;
-                font-size:20px;
-                padding:15px;
-                border-radius:8px;
-                margin:6px;
-            '>
-                Distance:<b>{distance}</b>
-            </div>
-            """,
+            </div>""",
             unsafe_allow_html=True,
         )
 
