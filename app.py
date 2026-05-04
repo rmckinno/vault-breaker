@@ -229,19 +229,32 @@ if st.session_state.message:
 if st.session_state.history:
     st.subheader("Latest Attempts")
 
+    st.markdown("""
+    <style>
+    @keyframes tileFlip {
+        0%   { transform: rotateX(0deg); background-color: #555; }
+        49%  { transform: rotateX(90deg); background-color: #555; }
+        50%  { transform: rotateX(90deg); }
+        100% { transform: rotateX(0deg); }
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
     color_map = {
         "🟩": "#6aaa64",
         "🟨": "#c9b458",
         "⬛": "#787c7e",
     }
 
-    for entry in reversed(st.session_state.history):
+    for idx, entry in enumerate(reversed(st.session_state.history)):
         guess, feedback, distance = entry
+        is_latest = (idx == 0)
 
         digit_cells = "".join(
             f"""<div style='flex:1;background-color:{color_map[feedback[i]]};color:white;
                 text-align:center;font-size:28px;padding:15px;border-radius:8px;
-                font-weight:bold;margin:6px;'>{guess[i]}</div>"""
+                font-weight:bold;margin:6px;
+                {"animation:tileFlip 0.5s ease " + str(i * 0.15) + "s both;" if is_latest else ""}'>{guess[i]}</div>"""
             for i in range(4)
         )
 
