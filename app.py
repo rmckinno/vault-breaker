@@ -222,9 +222,9 @@ setTimeout(function() {
 
 if st.session_state.message:
     if st.session_state.solved:
-        st.success(st.session_state.message)
+        st.toast(st.session_state.message, icon="🔓")
     else:
-        st.warning(st.session_state.message)
+        st.toast(st.session_state.message, icon="⚠️")
 
 if st.session_state.history:
     st.subheader("Latest Attempts")
