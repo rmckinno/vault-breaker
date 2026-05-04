@@ -118,6 +118,7 @@ def process_guess(secret, max_attempts):
 
     st.session_state.history.append((guess, feedback, distance))
     st.session_state.message = ""
+    st.session_state.guess_text = ""
 
     if guess == secret:
         st.session_state.solved = True
@@ -213,6 +214,7 @@ setTimeout(function() {
     var inputs = window.parent.document.querySelectorAll('input[type="text"]');
     for (var i = 0; i < inputs.length; i++) {
         inputs[i].setAttribute('inputmode', 'numeric');
+        inputs[i].setAttribute('pattern', '[0-9]*');
     }
 }, 300);
 </script>
@@ -278,3 +280,14 @@ if st.session_state.solved or len(st.session_state.history) >= 6:
     share_text = build_share_text()
 
     st.text_area("Copy your results:", share_text, height=200)
+
+    escaped = share_text.replace("\\", "\\\\").replace("`", "\\`")
+    components.html(f"""
+<button onclick="navigator.clipboard.writeText(`{escaped}`).then(function() {{
+    this.textContent = 'Copied!';
+    setTimeout(() => this.textContent = 'Copy to clipboard', 2000);
+}}.bind(this))" style="
+    background-color:#6aaa64;color:white;border:none;padding:12px 24px;
+    font-size:16px;border-radius:8px;cursor:pointer;width:100%;
+">Copy to clipboard</button>
+""", height=60)
