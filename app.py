@@ -250,7 +250,7 @@ if st.session_state.history:
                 {digit_cells}
                 <div style='flex:1;background-color:#222;color:white;text-align:center;
                     font-size:20px;padding:15px;border-radius:8px;margin:6px;'>
-                    Distance: <b>{distance}</b>
+                    Distance: Δ<b>{distance}</b>
                 </div>
             </div>""",
             unsafe_allow_html=True,
