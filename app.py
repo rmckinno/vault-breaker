@@ -213,9 +213,10 @@ if st.session_state.message:
         st.warning(st.session_state.message)
 
 if st.session_state.history:
-    st.subheader("Vault Attempts")
+    st.subheader("Latest Attempts")
 
-    for entry in st.session_state.history:
+    for entry in reversed(st.session_state.history):
+    #for entry in st.session_state.history:
         guess, feedback, distance = entry
         cols = st.columns(5)
 
