@@ -1,6 +1,7 @@
 import random
 from datetime import date
 import streamlit as st # pyright: ignore[reportMissingImports]
+import streamlit.components.v1 as components
 
 
 def generate_secret(test_mode=False):
@@ -206,6 +207,17 @@ with st.form(key="guess_form"):
         args=(secret, max_attempts),
     )
 
+components.html("""
+<script>
+setTimeout(function() {
+    var inputs = window.parent.document.querySelectorAll('input[type="text"]');
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].setAttribute('inputmode', 'numeric');
+    }
+}, 300);
+</script>
+""", height=0)
+
 if st.session_state.message:
     if st.session_state.solved:
         st.success(st.session_state.message)
@@ -221,7 +233,7 @@ if st.session_state.history:
         cols = st.columns(5)
 
         for i in range(4):
-            
+
             # cols[i].markdown(
             #     f"<div style='text-align:center; font-size:24px;'>{guess[i]}<br>{feedback[i]}</div>",
             #     unsafe_allow_html=True,
@@ -292,7 +304,7 @@ if not st.session_state.solved and len(st.session_state.history) >= max_attempts
 
 if st.session_state.solved or len(st.session_state.history) >= 6:
     st.subheader("Share your results with friends 👇")
-   
+
     share_text = build_share_text()
 
     st.text_area("Copy your results:", share_text, height=200)
